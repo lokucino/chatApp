@@ -1,0 +1,61 @@
+PODS:
+  - Backendless (3.0.37)
+  - DACircularProgress (2.3.1)
+  - Firebase/Analytics (3.5.2):
+    - FirebaseAnalytics (~> 3.3)
+  - Firebase/Core (3.5.2):
+    - Firebase/Analytics
+  - Firebase/Database (3.5.2):
+    - Firebase/Analytics
+    - FirebaseDatabase (= 3.0.2)
+  - FirebaseAnalytics (3.3.1):
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseDatabase (3.0.2):
+    - FirebaseAnalytics (~> 3.2)
+  - FirebaseInstanceID (1.0.8)
+  - GoogleInterchangeUtilities (1.2.1):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.1.1)
+  - GoogleUtilities (1.3.1):
+    - GoogleSymbolUtilities (~> 1.0)
+  - IDMPhotoBrowser (1.8.4):
+    - DACircularProgress
+    - pop
+    - SDWebImage
+  - JSQMessagesViewController (7.3.4):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
+  - pop (1.0.9)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+
+DEPENDENCIES:
+  - Backendless (~> 3.0.29)
+  - Firebase/Core
+  - Firebase/Database
+  - IDMPhotoBrowser (~> 1.8.4)
+  - JSQMessagesViewController (~> 7.3.3)
+
+SPEC CHECKSUMS:
+  Backendless: 9fcde1637d92a04380ba5d558e43c9b42d9fb1dd
+  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  Firebase: 94e63112efcad75226c0356a8f3032397b8547c9
+  FirebaseAnalytics: d968d4d5f6aeb795cd64144337bcd233e530efc6
+  FirebaseDatabase: 59bea2e7dfd81b3b8b2f8e396caf1a52c2ced6f7
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
+  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
+  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
+  IDMPhotoBrowser: b574fe3229754e701f32df271afbc4ac7e4e1997
+  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+
+PODFILE CHECKSUM: cd36bbcff3533184601ea9761cf4c6a5a23d8827
+
+COCOAPODS: 1.1.1
