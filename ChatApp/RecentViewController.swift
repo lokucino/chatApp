@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecentViewController: UIViewController, UITableViewDataSource {
+class RecentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ChooseUserDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -44,6 +44,15 @@ class RecentViewController: UIViewController, UITableViewDataSource {
         
         return cell!
     }
+    
+    // MARK: UITableViewDelegate functions
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        performSegueWithIdentifier("recentToChatSeg", sender: indexPath)
+    }
+    
 
     //MARK:- IBActions
     @IBAction func startNewChatPressed(sender: AnyObject) {
@@ -56,7 +65,30 @@ class RecentViewController: UIViewController, UITableViewDataSource {
         
         if segue.identifier == "recentToChooseUserVC" {
             let vc = segue.destinationViewController as! ChooseUserViewController
+            vc.delegate = self
+            
         }
+        
+        if segue.identifier == "recentToChatSeg" {
+            let indexPath = sender as! NSIndexPath
+            let chatVC = segue.destinationViewController as! ChatViewController
+            
+            let recent = recents[indexPath.row]
+            
+            // set ChatVC recent to our recent
+        }
+    }
+    
+    // MARK: ChooseUserDelegate
+    func createChatRoom(withUser: BackendlessUser) {
+        
+        let chatVC = ChatViewController()
+        
+        // hide the bottom bar
+        chatVC.hidesBottomBarWhenPushed = true
+        
+        navigationController?.pushViewController(chatVC, animated: true)
+        // set ChatVC recent to our recent
     }
     
 

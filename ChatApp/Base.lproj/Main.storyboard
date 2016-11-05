@@ -277,6 +277,7 @@
                     <connections>
                         <outlet property="tableView" destination="F7U-gH-s8H" id="FIQ-6x-CRj"/>
                         <segue destination="afN-Gn-vLm" kind="presentation" identifier="recentToChooseUserVC" id="UTp-AM-0nm"/>
+                        <segue destination="Ewv-PC-Cid" kind="show" identifier="recentToChatSeg" id="W4q-gc-8Pn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a9X-pE-bQn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -376,6 +377,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7r-vL-v4J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3373" y="-473"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="syT-ae-uGR">
+            <objects>
+                <viewController id="Ewv-PC-Cid" customClass="ChatViewController" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eD9-gH-C0M"/>
+                        <viewControllerLayoutGuide type="bottom" id="rob-7c-jY5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gIm-mc-hIl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="SEo-4e-aBh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xYx-3X-I61" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3373" y="219"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="t7z-ag-1ZD">

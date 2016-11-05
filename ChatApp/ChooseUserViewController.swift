@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol ChooseUserDelegate {
+    func createChatRoom(withUser: BackendlessUser)
+}
+
 class ChooseUserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var users: [BackendlessUser] = [] 
+    var delegate: ChooseUserDelegate!
+    
+    var users: [BackendlessUser] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +50,10 @@ class ChooseUserViewController: UIViewController, UITableViewDataSource, UITable
     
     // When the user taps on the tableViewCell
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let user = users[indexPath.row]
+        delegate.createChatRoom(user)
+        
         
         // deselect when user taps on the cell
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

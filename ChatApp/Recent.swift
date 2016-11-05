@@ -10,6 +10,7 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
+// universal necessary variables
 let firebase = FIRDatabase.database().reference()
 let backendless = Backendless.sharedInstance()
 let currentUser = backendless.userService.currentUser
@@ -18,6 +19,7 @@ let currentUser = backendless.userService.currentUser
 
 private let dateFormat = "yyyyMMddHHmmss"
 
+// universal dateFormat: textual representation of date and time
 func dateFormatter() -> NSDateFormatter {
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = dateFormat
