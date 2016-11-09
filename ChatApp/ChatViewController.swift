@@ -23,6 +23,8 @@ class ChatViewController: JSQMessagesViewController {
     
     var chatRoomId: String!
     
+    var initialLoadComplete: Bool = false
+    
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleBlueColor())
     
     let incomingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
@@ -38,6 +40,7 @@ class ChatViewController: JSQMessagesViewController {
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
         
         // load firebase messages
+        loadMessages()
         
         self.inputToolbar.contentView.textView.placeHolder = "New Message"
     }
@@ -139,4 +142,91 @@ class ChatViewController: JSQMessagesViewController {
         outgoingMessage!.sendMessage(chatRoomId, item: outgoingMessage!.messageDictionary)
         
     }
+    
+    func loadMessages() {
+        
+        ref.child(chatRoomId).observeSingleEventOfType(.Value) { (snapshot:FIRDataSnapshot) in
+            
+            // get dictionaries
+            // create JSQ messages
+            
+            self.insertMessages()
+            self.finishReceivingMessageAnimated(true)
+            self.initialLoadComplete = true
+        }
+        
+        // if a new there is a new message, it is called
+        ref.child(chatRoomId).observeEventType(.ChildAdded) { (snapshot:FIRDataSnapshot) in
+            
+            if snapshot.exists() {
+                
+                let item = (snapshot.value as? NSDictionary)!
+                
+                if self.initialLoadComplete {
+                    let incoming = self.insertMessage(item)
+                    if incoming {
+                        JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
+                    }
+                    
+                    self.finishSendingMessageAnimated(true)
+                } else {
+                    
+                    // add each dictionary to loaded array
+                    self.loaded.append(item)
+                }
+                
+            }
+        }
+        
+        ref.child(chatRoomId).observeEventType(.ChildChanged) { (snapshot: FIRDataSnapshot) in
+            
+            // updated message
+        }
+        
+        ref.child(chatRoomId).observeEventType(.ChildRemoved) { (snapshot: FIRDataSnapshot) in
+            
+            // deleted message
+        }
+        
+    }
+    
+    func insertMessages() {
+        
+        for item in loaded {
+            
+            // create message
+            insertMessage(item)
+        }
+    }
+    
+    func insertMessage(item: NSDictionary) -> Bool {
+        
+        let incomingMessage = IncomingMessage(collectionView_: self.collectionView!)
+        
+        let message = incomingMessage.createMessage(item)
+        
+        objects.append(item)
+        messages.append(message!)
+        
+        return incoming(item)
+    }
+    
+    func incoming(item: NSDictionary) -> Bool {
+        
+        if self.senderId == item["senderId"] as! String {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func outgoing(item: NSDictionary) -> Bool {
+        
+        if self.senderId == item["senderId"] as! String {
+            return true
+        } else {
+            return false
+        }
+    }
+    
 }
