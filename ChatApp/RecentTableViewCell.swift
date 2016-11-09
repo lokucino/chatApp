@@ -64,7 +64,7 @@ class RecentTableViewCell: UITableViewCell {
             counterLbl.text = "\(recent["counter"]!) New"
         }
         
-        let date = dateFormatter().dateFromString((recent["date"]as? String)!)
+        let date = dateFormatter().dateFromString((recent["date"] as? String)!)
         let seconds = NSDate().timeIntervalSinceDate(date!)
         dateLbl.text = timeElipsed(seconds)
         
@@ -85,7 +85,7 @@ class RecentTableViewCell: UITableViewCell {
             elapsed = "\(minutes) \(minText)"
             
         } else if (seconds < 24 * 60 * 60) {
-            let hours = Int(seconds / (60*60))
+            let hours = Int(seconds / (60 * 60))
             var hourText = "hour"
             if hours > 1 {
                 hourText = "hours"
