@@ -12,6 +12,8 @@ import JSQMessagesViewController
 
 class ChatViewController: JSQMessagesViewController {
 
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
     let ref = firebase.child("Message")
     
     var messages: [JSQMessage] = []
@@ -58,7 +60,7 @@ class ChatViewController: JSQMessagesViewController {
         
         let data = messages[indexPath.row]
         
-        if data.senderId == currentUser.objectId {
+        if data.senderId == backendless.userService.currentUser.objectId {
             cell.textView.textColor = UIColor.whiteColor()
         } else {
             cell.textView.textColor = UIColor.blackColor()
@@ -110,7 +112,36 @@ class ChatViewController: JSQMessagesViewController {
     // attachment button pressed
     override func didPressAccessoryButton(sender: UIButton!) {
         
-        print("Accessory Button pressed")
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let takePhoto = UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.Default) { (alert: UIAlertAction) in
+            print("take Photo")
+        }
+        
+        let sharePhoto = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.Default) { (alert:UIAlertAction) in
+            
+            print("photo library")
+        }
+        
+        let shareLocation = UIAlertAction(title: "Share Location", style: .Default) { (alert:UIAlertAction) in
+            
+            if self.haveAccessToLocation() {
+                self.sendMessage(nil, date: NSDate(), picture: nil, location: "location")
+            } 
+            
+            
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default) { (alert: UIAlertAction) in
+            
+            print("Cancel")
+        }
+        
+        optionMenu.addAction(takePhoto)
+        optionMenu.addAction(sharePhoto)
+        optionMenu.addAction(shareLocation)
+        optionMenu.addAction(cancelAction)
+        
+        self.presentViewController(optionMenu, animated: true, completion: nil)
     }
     
     //MARK: Send message
@@ -131,8 +162,13 @@ class ChatViewController: JSQMessagesViewController {
             // send picture message
         }
         
-        if let loc = location {
+        if let _ = location {
             // send location message
+            
+            let lat: NSNumber = NSNumber(double: (appDelegate.coordinate?.latitude)!)
+            let lng : NSNumber = NSNumber(double: (appDelegate.coordinate?.longitude)!)
+            
+            outgoingMessage = OutgoingMessage(message: "Location", latitude: lat, longitude: lng, senderId: currentUser.objectId, senderName: currentUser.name!, date: date, status: "Delivered", type: "location")
         }
         
         // play message send sound
@@ -153,6 +189,7 @@ class ChatViewController: JSQMessagesViewController {
             self.insertMessages()
             self.finishReceivingMessageAnimated(true)
             self.initialLoadComplete = true
+            
         }
         
         // if a new there is a new message, it is called
@@ -225,6 +262,18 @@ class ChatViewController: JSQMessagesViewController {
         if self.senderId == item["senderId"] as! String {
             return true
         } else {
+            return false
+        }
+    }
+    
+    //MARK: Helper function
+    
+    func haveAccessToLocation() -> Bool {
+        
+        if let _ = appDelegate.coordinate?.latitude {
+            return true
+        } else {
+            print("No access to location")
             return false
         }
     }

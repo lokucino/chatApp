@@ -9,12 +9,14 @@
 import Foundation
 import JSQMessagesViewController
 
+
 class IncomingMessage {
     
     var collectionView: JSQMessagesCollectionView
     
     init(collectionView_: JSQMessagesCollectionView) {
         collectionView = collectionView_
+        
     }
     
     
@@ -31,6 +33,8 @@ class IncomingMessage {
         
         if type == "location" {
             // create location message
+            message = createLocationMessage(dictionary)
+            
         }
         
         if type == "picture" {
@@ -38,7 +42,7 @@ class IncomingMessage {
         }
         
         if let mes = message {
-            return message
+            return mes
         }
         
         return nil
@@ -55,8 +59,38 @@ class IncomingMessage {
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, text: text)
     }
     
+    func createLocationMessage(item: NSDictionary) -> JSQMessage {
+        
+        
+        let name = item["senderName"] as? String
+        let userId = item["senderId"] as? String
+        
+        let date = dateFormatter().dateFromString((item["date"] as? String)!)
+        
+        let latitude = item["latitude"] as? Double
+        let longitude = item["longitude"] as? Double
+        
+        let mediaItem = JSQLocationMediaItem(location: nil)
+        mediaItem.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusFromUser(userId!)
+        
+        let location = CLLocation(latitude: latitude!, longitude: longitude!)
+        mediaItem.setLocation(location) { 
+            // update our collectionView
+            self.collectionView.reloadData()
+        }
+        
+        return JSQMessage(senderId: userId!, senderDisplayName: name!, date: date!, media: mediaItem)
+    }
     
-    
+    func returnOutgoingStatusFromUser(senderId: String) -> Bool{
+        
+        if senderId == currentUser.objectId {
+            // outgoing
+            return true
+        } else {
+            return false
+        }
+    }
     
     
     
